@@ -3,7 +3,7 @@
     <v-container fluid grid-list-lg class="blue darken-1">
       <v-layout row wrap>
         <v-flex xs12>
-          <h1 class="text-xs-center white--text">{{ APP_NAME }}</h1>
+          <h1 class="text-xs-center white--text hq-unselectable">{{ APP_NAME }}</h1>
         </v-flex>
         <v-flex xs12 v-for="quiz in quizzes">
           <v-card max-width="600" class="centered card">
@@ -60,5 +60,13 @@ export default {
   .card {
     border-radius: 10px;
 
+  }
+</style>
+<style>
+  .hq-unselectable {
+    -webkit-user-select: none;  /* Chrome all / Safari all */
+    -moz-user-select: none;     /* Firefox all */
+    -ms-user-select: none;      /* IE 10+ */
+    user-select: none;          /* Likely future */   
   }
 </style>

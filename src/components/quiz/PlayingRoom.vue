@@ -10,8 +10,8 @@
         <div>
           <v-card color="white" class="pa-2">
             <v-card-text class="px-0">
-              <div style="font-size:20px;" class="ma-0 pa-0 font-weight-medium">{{ current_question.question }}</div>
-              ({{this.q_index + 1}}/{{this.questions.length}})
+              <div style="font-size:20px;" class="ma-0 pa-0 font-weight-medium hq-unselectable">{{ current_question.question }}</div>
+              <p class="hq-unselectable">({{this.q_index + 1}}/{{this.questions.length}})</p>
             </v-card-text>
           </v-card>
           <v-progress-linear
@@ -27,7 +27,9 @@
           <v-layout wrap>
             <v-flex xs12 v-for="(choice, i) in current_question.choices" class="mb-3">
               <div :class="['btn-'+i, 'btn']" flat block @click="choose(choice.order)" style="cursor: pointer;">
-                <div class="ma-0 pa-2 text-capitalize" style="word-break: break-all;font-size:14px;">{{ choice.content }}</div>
+                <div class="ma-0 pa-2 text-capitalize hq-unselectable" style="word-break: break-all;font-size:14px;">
+                  {{ choice.content }}
+                </div>
               </div>
             </v-flex>
           </v-layout>
