@@ -14,6 +14,7 @@ Vue.config.productionTip = false
 
 Vue.prototype.APP_NAME = 'Hellooo Quizzes'
 Vue.prototype.PATH_API = 'https://helloooquizzes-admin.herokuapp.com/api'
+Vue.prototype.PLAYER_NAME = sessionStorage.player_name ? sessionStorage.player_name : 'Alex'
 
 new Vue({
   render: h => h(App),

@@ -2,8 +2,8 @@
   <v-container text-xs-center fluid>
     <v-layout row wrap v-if="!is_result_active">
       <v-flex xs12>
-        <div style="font-size:20px;" class="white--text">
-          Hi {{ player_name }}. You are playing {{ game.name }}
+        <div style="font-size:17px;" class="white--text">
+          Hi {{ PLAYER_NAME }}. You are playing {{ quiz.name }}
         </div>
       </v-flex>
       <v-flex xs12 class="mt-3 mb-3">
@@ -46,9 +46,12 @@
 </template>
 <script>
 import ResultPage from './ResultPage'
+
+import { jumble_array } from '../../helpers'
+
 export default {
   props: [
-    'game',
+    'quiz',
     'questions'
   ],
   components:{
@@ -64,22 +67,17 @@ export default {
     }
   },
   created () {
-    this.start_counter(parseInt(this.questions[this.q_index].time_limit))
+    this.start_counter(parseInt(this.current_question.time_limit))
   },
   destroyed () {
     this.stop_counter()
   },
   computed: {
     current_question () {
-      let current_question = this.questions[this.q_index]
-      let jumbled_choices = this.jumble_array(current_question.choices, current_question.choices.length)
-      
-      current_question.choices = jumbled_choices
-      return current_question
+      let cq = this.questions[this.q_index]
+      cq.choices = jumble_array(cq.choices, cq.choices.length)
+      return cq
     },
-    player_name () {
-      return sessionStorage.player_name ? sessionStorage.player_name : 'Alex'
-    }
   },
   methods: {
     reset () {
@@ -89,28 +87,16 @@ export default {
       this.q_index = 0,
       this.corrections = 0,
       this.is_result_active = false
-      this.start_counter(parseInt(this.questions[this.q_index].time_limit))
+      this.current_question.choices = jumble_array(this.current_question.choices, this.current_question.choices.length)
+      this.start_counter(parseInt(this.current_question.time_limit))
     },
-    pause () {
+    pause_quiz () {
       this.stop_counter()
     },
-    play () {
+    continue_quiz () {
       if (!this.is_result_active) {
-        this.start_counter(parseInt(this.questions[this.q_index].time_limit), this.count)  
+        this.start_counter(parseInt(this.current_question.time_limit), this.count)  
       }
-    },
-    jumble_array(arr, n) {
-      let result = new Array(n)
-      let len = arr.length
-      let taken = new Array(len)
-      if (n > len)
-        throw new RangeError("getRandom: more elements taken than available");
-      while (n--) {
-        let x = Math.floor(Math.random() * len);
-        result[n] = arr[x in taken ? taken[x] : x];
-        taken[x] = --len in taken ? taken[len] : len;
-      }
-      return result
     },
     stop_counter () {
       clearInterval(this.counter)
@@ -125,7 +111,7 @@ export default {
           this.stop_counter()
           this.next_question()
         }
-        console.log('hi')
+        // console.log('hi')
       }, sec*10)
     },
     get_answer_sheet (raw_correct_answer) {
@@ -141,7 +127,7 @@ export default {
         this.show_result_page()
       } else {
         this.q_index += 1
-        this.start_counter(parseInt(this.questions[this.q_index].time_limit))
+        this.start_counter(parseInt(this.current_question.time_limit))
       }
     },
     add_correction () {
@@ -154,18 +140,18 @@ export default {
 
       return true
     },
-    show_result_page () {
-      this.stop_counter()
-      this.is_result_active = true
-    },
     choose (answer) {
-      let result = this.check_answer(answer, this.get_answer_sheet(this.questions[this.q_index].correct_answer))
+      let result = this.check_answer(answer, this.get_answer_sheet(this.current_question.correct_answer))
 
       if (result) {
         this.add_correction()  
       }
 
       this.next_question()
+    },
+    show_result_page () {
+      this.stop_counter()
+      this.is_result_active = true
     }
   }
 }

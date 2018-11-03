@@ -1,95 +1,53 @@
 <template>
   <v-app>
-    <v-toolbar app dense dark color="blue darken-3">
-      <v-toolbar-title class="headline">
-        <v-btn class="title text-capitalize" flat @click="game_list()">{{ APP_NAME }}</v-btn>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <v-btn
-        flat
-        icon
-        @click="game_list()"
-      >
-        <v-icon>view_list</v-icon>
-      </v-btn>
-    </v-toolbar>
-    <v-container fluid class="blue darken-1">
-      <v-layout row wrap class="mt-5">
+    <v-container fluid grid-list-lg class="blue darken-1">
+      <v-layout row wrap>
         <v-flex xs12>
-          <h2 style="font-size:30px;" class="mt-3 text-xs-center text-capitalize white--text">
-            {{ game.name }}
-          </h2>
-          <div style="font-size:25px;" class="text-xs-center font-weight-light white--text">by {{ game.creator }}</div>
+          <h1 class="text-xs-center white--text">{{ APP_NAME }}</h1>
         </v-flex>
-        <v-flex xs12>
-          <div class="text-xs-center ma-4">
-            <input v-model="name" placeholder="Your name" class="text-field" style="width:100%;max-width:300px;">
-          </div>
-        </v-flex>
-        <v-flex xs12>
-          <div class="text-xs-center">
-            <v-btn 
-              @click="get_started()" 
-              color="green lighten-1" 
-              dark
-              :disabled="disabled"
-            >Get Started</v-btn>
-          </div>
+        <v-flex xs12 v-for="quiz in quizzes">
+          <v-card max-width="600" class="centered card">
+            <v-card-title primary-title class="pt-3 pb-2">
+              <div>
+                <h3 class="headline mb-0">{{ quiz.name }}</h3>
+                <div>{{ quiz.description }}</div>
+              </div>
+            </v-card-title>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn @click="play(quiz.id)" color="green lighten-1" dark>Play</v-btn>
+            </v-card-actions>
+          </v-card>
         </v-flex>
       </v-layout>
     </v-container>
-  </v-app>
+  </v-app> 
 </template>
 <script>
 export default {
   data () {
     return {
-      name: '',
-      game: {},
-      questions: [
-        {}
-      ],
-      disabled: true
+      quizzes: []
     }
   },
   created () {
-    this.$http.get(`${this.PATH_API}/game/${this.$route.params.game_id}`).then(res => {
-      this.game = res.data.result.game
-      this.questions = res.data.result.questions
-      this.disabled = false
-    })  
-
-    if (typeof(Storage) !== "undefined") {
-      if (sessionStorage.player_name) {
-          this.name = sessionStorage.player_name
-      } else {
-          this.name = ''
-      }
-    } else {
-        // Sorry! No Web Storage support..
-    }
+    this.get_quiz_list()
   },
   methods: {
-    get_started () {
-      if (typeof(Storage) !== "undefined") {
-        sessionStorage.setItem('player_name', this.name)
-      } else {
-          // Sorry! No Web Storage support..
-      }
-
+    play (game_id) {
       this.$router.push({
-        name: 'game',
+        name: 'loading_room',
         params: {
-          game_id: this.$route.params.game_id,
-          questions: this.questions,
-          game: this.game
+          game_id: game_id
         }
       })
     },
-    game_list () {
-      this.$router.push({
-        name: 'game_list'
-      })
+    get_quiz_list () {
+      this.$http.get(`${this.PATH_API}/game/list`).then(res => {
+        this.quizzes = res.data.result
+      }).catch(err => {
+        console.log('Sever has some problems')
+      })  
     }
   }
 }
@@ -99,11 +57,8 @@ export default {
     margin-left: auto;
     margin-right: auto;
   }
-  .text-field {
-    border: 3px solid #3e7fb3;
-    background: white;
-    padding: 7px;
-    font-size: 30px;
-    font-weight: bold;
+  .card {
+    border-radius: 10px;
+
   }
 </style>
