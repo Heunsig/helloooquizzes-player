@@ -6,24 +6,26 @@
           Hi {{ player_name }}. You are playing {{ game.name }}
         </div>
       </v-flex>
-      <v-flex xs12>
-        <v-progress-linear
-          color="orange lighten-1"
-          height="20"
-          :value="count"
-        ></v-progress-linear>
-      </v-flex>
-      <v-flex xs12 class="mb-3">
-        <v-card color="white" class="pa-2">
-          <v-card-text class="px-0">
-            <p style="font-size:20px;" class="ma-0 pa-0 font-weight-medium">{{ current_question.question }}</p>
-          </v-card-text>
-        </v-card>
+      <v-flex xs12 class="mt-3 mb-3">
+        <div>
+          <v-card color="white" class="pa-2">
+            <v-card-text class="px-0">
+              <div style="font-size:20px;" class="ma-0 pa-0 font-weight-medium">{{ current_question.question }}</div>
+              ({{this.q_index + 1}}/{{this.questions.length}})
+            </v-card-text>
+          </v-card>
+          <v-progress-linear
+            class="ma-0"
+            color="orange lighten-1"
+            height="6"
+            :value="count"
+          ></v-progress-linear>
+        </div>
       </v-flex>
       <v-flex xs12>
         <v-container fluid class="pa-0">
           <v-layout wrap>
-            <v-flex xs12 v-for="(choice, i) in current_question.choices" class="pa-2">
+            <v-flex xs12 v-for="(choice, i) in current_question.choices" class="mb-3">
               <div :class="['btn-'+i, 'btn']" flat block @click="choose(choice.order)" style="cursor: pointer;">
                 <div class="ma-0 pa-2 text-capitalize" style="word-break: break-all;font-size:14px;">{{ choice.content }}</div>
               </div>
@@ -80,6 +82,23 @@ export default {
     }
   },
   methods: {
+    reset () {
+      this.stop_counter()
+      this.counter = null,
+      this.count = 0,
+      this.q_index = 0,
+      this.corrections = 0,
+      this.is_result_active = false
+      this.start_counter(parseInt(this.questions[this.q_index].time_limit))
+    },
+    pause () {
+      this.stop_counter()
+    },
+    play () {
+      if (!this.is_result_active) {
+        this.start_counter(parseInt(this.questions[this.q_index].time_limit), this.count)  
+      }
+    },
     jumble_array(arr, n) {
       let result = new Array(n)
       let len = arr.length
@@ -96,16 +115,17 @@ export default {
     stop_counter () {
       clearInterval(this.counter)
     },
-    start_counter (sec=20) {
-      this.count = 0
+    start_counter (sec=20, count=0) {
+      this.count = count
       clearInterval(this.counter)
 
       this.counter = setInterval(() => {
         this.count += 1
         if(this.count > 100) {
           this.stop_counter()
-          // this.next_question()
+          this.next_question()
         }
+        console.log('hi')
       }, sec*10)
     },
     get_answer_sheet (raw_correct_answer) {
@@ -152,19 +172,7 @@ export default {
 </script>
 <style scoped>
   .btn {
-    /*height:120px;*/
     background: white;
-  }
-  .btn-0 {
-    border: 12px solid #ff5858;
-  }
-  .btn-1 {
-    border: 12px solid #a5dc8b;
-  }
-  .btn-2 {
-    border: 12px solid #f7c530;
-  }
-  .btn-3 {
-    border: 12px solid #b150a9;
+    border: 3px solid #696969;
   }
 </style>

@@ -15,15 +15,48 @@
       <v-btn
         flat
         icon
-        @click="retry()"
+        @click="ask_retry()"
       >
         <v-icon>replay</v-icon>
       </v-btn>
+      <v-dialog
+        v-model="dialog"
+        max-width="290"
+      >
+        <v-card>
+          <v-card-title class="headline">Use Google's location service?</v-card-title>
+
+          <v-card-text>
+            Let Google help apps determine location. This means sending anonymous location data to Google, even when no apps are running.
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="cancel()"
+            >
+              Cancel
+            </v-btn>
+
+            <v-btn
+              color="green darken-1"
+              flat="flat"
+              @click="retry()"
+            >
+              Retry
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-toolbar>
     <v-content class="blue darken-1">
       <game
         :questions="questions"
         :game="game"
+        ref="game"
       ></game>
     </v-content>
   </v-app>
@@ -38,19 +71,34 @@ export default {
   components: {
     Game
   },
+  data () {
+    return {
+      dialog: false
+    }
+  },
   methods: {
     game_list () {
       this.$router.push({
         name: 'game_list'
       })
     },
+    ask_retry () {
+      this.dialog = true
+      this.$refs.game.pause()
+    },
+    cancel () {
+      this.dialog = false
+      this.$refs.game.play('a')
+    },
     retry () {
-      this.$router.push({
-        name: 'main',
-        params: {
-          game_id: this.$route.params.game_id
-        }
-      })
+      this.dialog = false
+      this.$refs.game.reset()
+      // this.$router.push({
+      //   name: 'main',
+      //   params: {
+      //     game_id: this.$route.params.game_id
+      //   }
+      // })
     }
   } 
 }

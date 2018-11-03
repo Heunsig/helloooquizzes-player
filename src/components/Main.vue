@@ -28,7 +28,12 @@
         </v-flex>
         <v-flex xs12>
           <div class="text-xs-center">
-            <v-btn @click="get_started()" color="green lighten-1" dark>Get Started</v-btn>
+            <v-btn 
+              @click="get_started()" 
+              color="green lighten-1" 
+              dark
+              :disabled="disabled"
+            >Get Started</v-btn>
           </div>
         </v-flex>
       </v-layout>
@@ -43,13 +48,15 @@ export default {
       game: {},
       questions: [
         {}
-      ]
+      ],
+      disabled: true
     }
   },
   created () {
     this.$http.get(`${this.PATH_API}/game/${this.$route.params.game_id}`).then(res => {
       this.game = res.data.result.game
       this.questions = res.data.result.questions
+      this.disabled = false
     })  
 
     if (typeof(Storage) !== "undefined") {
