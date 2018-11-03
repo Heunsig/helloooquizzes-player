@@ -7,15 +7,17 @@
       <v-spacer></v-spacer>
       <v-btn
         flat
+        icon
         @click="game_list()"
       >
-        <span class="mr-2">Choose Another Quiz</span>
+        <v-icon>view_list</v-icon>
       </v-btn>
       <v-btn
         flat
+        icon
         @click="retry()"
       >
-        <span class="mr-2">Retry</span>
+        <v-icon>replay</v-icon>
       </v-btn>
     </v-toolbar>
     <v-content class="blue darken-1">

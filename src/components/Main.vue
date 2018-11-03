@@ -7,15 +7,15 @@
       <v-spacer></v-spacer>
       <v-btn
         flat
+        icon
         @click="game_list()"
       >
-        <span class="mr-2">Choose Another Quiz</span>
+        <v-icon>view_list</v-icon>
       </v-btn>
     </v-toolbar>
     <v-container fluid class="blue darken-1">
       <v-layout row wrap class="mt-5">
         <v-flex xs12>
-          <!-- <h1 class="text-xs-center display-2 text-capitalize font-weight-light white--text">Vocabulary Quiz</h1> -->
           <h2 style="font-size:30px;" class="mt-3 text-xs-center text-capitalize white--text">
             {{ game.name }}
           </h2>
@@ -23,7 +23,7 @@
         </v-flex>
         <v-flex xs12>
           <div class="text-xs-center ma-4">
-            <input v-model="name" placeholder="Your name" class="text-field">
+            <input v-model="name" placeholder="Your name" class="text-field" style="width:100%;max-width:300px;">
           </div>
         </v-flex>
         <v-flex xs12>

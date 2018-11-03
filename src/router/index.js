@@ -27,7 +27,6 @@ const router = new VueRouter({
       name: 'game',
       props: true,
       beforeEnter (to, from, next) {
-        console.log(from)
         if (to.params.questions) {
           next()
         } else {

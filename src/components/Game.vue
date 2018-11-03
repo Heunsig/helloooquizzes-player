@@ -23,10 +23,10 @@
       <v-flex xs12>
         <v-container fluid class="pa-0">
           <v-layout wrap>
-            <v-flex xs6 v-for="(choice, i) in current_question.choices" class="pa-2">
-              <v-btn :class="['btn-'+i, 'btn']" flat block @click="choose(choice.order)">
-                <p class="ma-0 pa-0" style="font-size:17px;">{{ choice.content }}</p>
-              </v-btn>
+            <v-flex xs12 v-for="(choice, i) in current_question.choices" class="pa-2">
+              <div :class="['btn-'+i, 'btn']" flat block @click="choose(choice.order)" style="cursor: pointer;">
+                <div class="ma-0 pa-2 text-capitalize" style="word-break: break-all;font-size:14px;">{{ choice.content }}</div>
+              </div>
             </v-flex>
           </v-layout>
         </v-container>
@@ -65,7 +65,6 @@ export default {
     this.start_counter(parseInt(this.questions[this.q_index].time_limit))
   },
   destroyed () {
-    console.log('Destroyed')
     this.stop_counter()
   },
   computed: {
@@ -105,9 +104,8 @@ export default {
         this.count += 1
         if(this.count > 100) {
           this.stop_counter()
-          this.next_question()
+          // this.next_question()
         }
-        console.log('dddd')// TODO: HERE
       }, sec*10)
     },
     get_answer_sheet (raw_correct_answer) {
@@ -145,7 +143,6 @@ export default {
 
       if (result) {
         this.add_correction()  
-        console.log('Got it!!!')
       }
 
       this.next_question()
@@ -155,7 +152,7 @@ export default {
 </script>
 <style scoped>
   .btn {
-    height:120px;
+    /*height:120px;*/
     background: white;
   }
   .btn-0 {
