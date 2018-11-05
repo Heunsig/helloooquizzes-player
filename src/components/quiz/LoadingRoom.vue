@@ -55,8 +55,8 @@ export default {
     }
   },
   created () {
-    this.$http.get(`${this.PATH_API}/game/${this.$route.params.game_id}`).then(res => {
-      this.quiz = res.data.result.game
+    this.$http.get(`${this.PATH_API}/quiz/${this.$route.params.quiz_id}`).then(res => {
+      this.quiz = res.data.result.quiz
       this.questions = res.data.result.questions
       this.play_disabled = false
     })
@@ -82,7 +82,7 @@ export default {
       this.$router.push({
         name: 'quiz_player',
         params: {
-          game_id: this.$route.params.game_id,
+          quiz_id: this.$route.params.quiz_id,
           quiz: this.quiz,
           questions: this.questions
         }

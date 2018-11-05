@@ -47,12 +47,12 @@ const router = new VueRouter({
     //   ]
     // }
     {
-      path: '/quiz/:game_id',
+      path: '/quiz/:quiz_id',
       component: LoadingRoom,
       name: 'loading_room'
     },
     {
-      path: '/quiz/:game_id/play',
+      path: '/quiz/:quiz_id/play',
       component: QuizPlayer,
       name: 'quiz_player',
       props: true,
@@ -63,7 +63,7 @@ const router = new VueRouter({
           next({
             name: 'loading_room',
             params: {
-              game_id: to.params.game_id
+              quiz_id: to.params.quiz_id
             }
           })
         }

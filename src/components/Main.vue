@@ -43,16 +43,16 @@ export default {
     this.get_quiz_list()
   },
   methods: {
-    play (game_id) {
+    play (quiz_id) {
       this.$router.push({
         name: 'loading_room',
         params: {
-          game_id: game_id
+          quiz_id: quiz_id
         }
       })
     },
     get_quiz_list () {
-      this.$http.get(`${this.PATH_API}/game/list`).then(res => {
+      this.$http.get(`${this.PATH_API}/quiz/list`).then(res => {
         this.quizzes = res.data.result
         this.is_list_loaded = true
       }).catch(err => {
