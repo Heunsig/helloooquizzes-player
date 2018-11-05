@@ -13,7 +13,8 @@ Vue.prototype._ = lodash
 Vue.config.productionTip = false
 
 Vue.prototype.APP_NAME = 'Hellooo Quizzes'
-Vue.prototype.PATH_API = 'https://helloooquizzes-admin.herokuapp.com/api'
+Vue.prototype.PATH_API = 'http://localhost:5000/api'
+
 Vue.prototype.PLAYER_NAME = sessionStorage.player_name ? sessionStorage.player_name : 'Alex'
 
 new Vue({

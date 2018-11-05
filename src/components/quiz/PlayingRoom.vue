@@ -26,7 +26,7 @@
         <v-container fluid class="pa-0">
           <v-layout wrap>
             <v-flex xs12 v-for="(choice, i) in current_question.choices" class="mb-3">
-              <div :class="['btn-'+i, 'btn']" flat block @click="choose(choice.order)" style="cursor: pointer;">
+              <div :class="['btn-'+i, 'btn']" flat block @click="choose(choice)" style="cursor: pointer;">
                 <div class="ma-0 pa-2 text-capitalize hq-unselectable" style="word-break: break-all;font-size:14px;">
                   {{ choice.content }}
                 </div>
@@ -39,8 +39,7 @@
     <v-layout row wrap v-else>
       <v-flex xs12>
         <result-page
-          :corrections="corrections"
-          :questions="questions"
+          :decisions="decisions"
         ></result-page>
       </v-flex>
     </v-layout>
@@ -64,7 +63,10 @@ export default {
       counter: null,
       count: 0,
       q_index: 0,
-      corrections: 0,
+      // corrections: 0,
+      // corrections: [],
+      // incorrections: [],
+      decisions: [],
       is_result_active: false
     }
   },
@@ -84,10 +86,12 @@ export default {
   methods: {
     reset () {
       this.stop_counter()
-      this.counter = null,
-      this.count = 0,
-      this.q_index = 0,
-      this.corrections = 0,
+      this.counter = null
+      this.count = 0
+      this.q_index = 0
+      // this.corrections = []
+      // this.incorrections = []
+      this.decisions= []
       this.is_result_active = false
       this.current_question.choices = jumble_array(this.current_question.choices, this.current_question.choices.length)
       this.start_counter(parseInt(this.current_question.time_limit))
@@ -111,19 +115,20 @@ export default {
         this.count += 1
         if(this.count > 100) {
           this.stop_counter()
+          this.add_decision(null)
           this.next_question()
         }
         // console.log('hi')
       }, sec*10)
     },
-    get_answer_sheet (raw_correct_answer) {
-      let str = raw_correct_answer;
-      let res = str.split(',')
-      return res
-    },
-    check_answer (answer, answer_sheet) {
-      return answer_sheet.indexOf(answer.toString()) > -1 ? true : false
-    },
+    // get_answer_sheet (raw_correct_answer) {
+    //   let str = raw_correct_answer;
+    //   let res = str.split(',')
+    //   return res
+    // },
+    // check_answer (answer, answer_sheet) {
+    //   return answer_sheet.indexOf(answer.toString()) > -1 ? true : false
+    // },
     next_question () {
       if (this.is_last_question()) {
         this.show_result_page()
@@ -132,9 +137,21 @@ export default {
         this.start_counter(parseInt(this.current_question.time_limit))
       }
     },
-    add_correction () {
-      this.corrections += 1
-    },
+    // add_correction (question, answer) {
+    //   let correction = {
+    //     question: question,
+    //     answer: answer
+    //   }
+    //   this.corrections.push(correction)
+    // },
+    // add_incorrection (question, answer) {
+    //   let incorrection = {
+    //     question: question,
+    //     answer: answer
+    //   }
+
+    //   this.incorrections.push(incorrection)
+    // },
     is_last_question () {
       if (this.q_index < this.questions.length - 1) {
         return false
@@ -142,13 +159,17 @@ export default {
 
       return true
     },
-    choose (answer) {
-      let result = this.check_answer(answer, this.get_answer_sheet(this.current_question.correct_answer))
-
-      if (result) {
-        this.add_correction()  
+    add_decision (choice) {
+      let decision = {
+        question: this.current_question,
+        choice: choice,
+        is_correct: false
       }
 
+      this.decisions.push(decision)
+    },
+    choose (choice) {
+      this.add_decision(choice)
       this.next_question()
     },
     show_result_page () {
