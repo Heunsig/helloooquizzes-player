@@ -8,7 +8,7 @@
             <input type="text" v-model="search" style="border: 1px solid red;">
           </v-flex>
           <v-flex xs12 id="test">
-            <RecycleScroller
+            <!-- <RecycleScroller
               class="scroller"
               :items="list"
               :item-height="70"
@@ -16,7 +16,7 @@
               <div slot-scope="{ item }" class="user">
                 {{ item.name }}
               </div>
-            </RecycleScroller>
+            </RecycleScroller> -->
           </v-flex>
         </v-layout>
       </v-container>
@@ -26,14 +26,14 @@
 <script>
 // import HyperList from 'hyperlist'
 // import virtualList from 'vue-virtual-scroll-list'
-import { RecycleScroller } from 'vue-virtual-scroller'
+// import { RecycleScroller } from 'vue-virtual-scroller'
 
 // Vue.component('RecycleScroller', RecycleScroller)
 
 export default {
-  components: {
-    RecycleScroller
-  },
+  // components: {
+  //   RecycleScroller
+  // },
   data () {
     return {
       items: [],
