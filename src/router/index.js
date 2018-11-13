@@ -5,6 +5,9 @@ import Main from '../components/Main'
 // import QuizLayout from '../components/quiz/Layout'
 import LoadingRoom from '../components/quiz/LoadingRoom'
 import QuizPlayer from '../components/quiz/QuizPlayer'
+import ErrorPage from '../components/quiz/ErrorPage'
+
+import TestPage from '../components/TestPage'
 
 Vue.use(VueRouter)
 
@@ -68,6 +71,15 @@ const router = new VueRouter({
           })
         }
       }
+    },
+    {
+      path:'/error/no_question',
+      component: ErrorPage,
+      name:'no_question'
+    },
+    {
+      path: '/test',
+      component: TestPage
     }
   ]
 })

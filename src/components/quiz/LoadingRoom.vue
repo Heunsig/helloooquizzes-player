@@ -56,6 +56,7 @@ export default {
   },
   created () {
     this.$http.get(`${this.PATH_API}/quiz/${this.$route.params.quiz_id}`).then(res => {
+      console.log('res', res)
       this.quiz = res.data.result.quiz
       this.questions = res.data.result.questions
       this.play_disabled = false
@@ -79,14 +80,20 @@ export default {
           // Sorry! No Web Storage support..
       }
 
-      this.$router.push({
-        name: 'quiz_player',
-        params: {
-          quiz_id: this.$route.params.quiz_id,
-          quiz: this.quiz,
-          questions: this.questions
-        }
-      })
+      if (this._.isEmpty(this.questions)) {
+        this.$router.push({
+          name: 'no_question'
+        })
+      } else {
+        this.$router.push({
+          name: 'quiz_player',
+          params: {
+            quiz_id: this.$route.params.quiz_id,
+            quiz: this.quiz,
+            questions: this.questions
+          }
+        })
+      }
     },
     // back_to_list () {
     //   this.$router.push({

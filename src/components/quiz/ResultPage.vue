@@ -2,14 +2,15 @@
   <v-container fulid>
     <v-layout wrap>
       <v-flex xs12>
-        <div class="white--text" style="font-size:30px;">Congraturation!!!</div>
+        <div class="white--text" style="font-size:30px;">{{ PLAYER_NAME }}</div>
+        <div class="white--text" style="font-size:30px;">Congraturations!!!</div>
         <div class="ma-0 pa-0 white--text" style="font-size:40px;">Your score is {{ total_score }}</div>
         <div class="white--text" style="font-size:20px;">({{ simple_result }})</div>
       </v-flex>
       <v-flex xs12>
         <v-card max-width="400" class="mt-5 mb-3 hq-centered">
           <v-card-title>
-            <h1 class="title">Details</h1>
+            <h1 class="title hq-unselectable">Details</h1>
             <v-spacer></v-spacer>
             <v-btn
               icon
@@ -79,6 +80,7 @@ export default {
   },
   created () {
     this.make_result()
+    this.send_player()
     console.log('decisions', this.decisions)
     console.log('result', this.result)
   },
@@ -140,6 +142,16 @@ export default {
     },
     toggle_expansion () {
       this.is_expanded = !this.is_expanded
+    },
+    send_player () {
+      let player = {
+        name: this.PLAYER_NAME,
+        score: this.total_score
+      }
+
+      this.$http.post(`${this.PATH_API}/quiz/${this.$route.params.quiz_id}/player`, player).then(res => {
+        console.log(res)
+      })
     }
   }
 }
