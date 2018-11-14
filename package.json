@@ -1,10 +1,10 @@
 {
-  "name": "vocab_quiz_player",
+  "name": "helloooquizzes",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build && cpy ./dist/index.html ./dist --rename=200.html",
     "lint": "vue-cli-service lint",
     "start": "node server.js"
   },
@@ -22,6 +22,7 @@
     "@vue/cli-plugin-babel": "^3.0.5",
     "@vue/cli-plugin-eslint": "^3.0.5",
     "@vue/cli-service": "^3.0.5",
+    "cpy-cli": "^2.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
     "vue-cli-plugin-vuetify": "^0.4.5",
