@@ -1,23 +1,23 @@
 <template>
   <v-app>
-    <v-container fluid grid-list-lg class="blue darken-1 px-0">
-      <v-layout row wrap>
-        <v-flex xs12>
+    <v-container fluid grid-list-lg class="blue darken-1 px-0 pt-3">
+      <v-layout row wrap class="mx-0">
+        <v-flex xs12 clas="px-0">
           <h1 class="text-xs-center white--text hq-unselectable">{{ APP_NAME }}</h1>
         </v-flex>
-        <v-flex xs12>
+        <v-flex xs12 class="px-0">
           <div v-if="is_list_loaded">
             <v-card max-width="600" class="hq-centered card mb-3" v-if="_.isEmpty(quizzes)">
               <v-card-title>Sorry quizzes are not prepared...</v-card-title>
             </v-card>
-            <virtual-list :size="129" :remain="filteredList.length" :style="{ height : scrollHeight+'px' }">
+            <virtual-list :size="129" :remain="filteredList.length" :style="{ height : scrollHeight+'px', paddingLeft: '20px', paddingRight: '20px' }">
               <v-card max-width="600" class="hq-centered card mb-3" v-for="quiz in filteredList">
-                <v-card-title primary-title class="pt-3 pb-2">
+                <v-card-title primary-title class="pt-2 pb-1">
                   <div>
                     <h3 class="headline mb-0">{{ quiz.name }}</h3>
                   </div>
                 </v-card-title>
-                <v-card-text class="pt-1">
+                <v-card-text class="pt-1 pb-1">
                     <div>{{ quiz.description }}</div>
                     <div class="card-meta">
                       <span class="card-meta-item">
