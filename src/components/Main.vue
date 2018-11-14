@@ -126,12 +126,14 @@ export default {
           setTimeout(() => {
             searchBox.style.display = 'none'
           }, 200)
+          searchBox.blur()
       } else {
           this.search_box  = true
           searchBox.style.display = 'block'
           setTimeout(() => {
             searchBox.classList.add('searchBox-active')
           }, 100)
+          searchBox.focus()
       }
     },
     on_resize () {
