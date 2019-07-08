@@ -2,6 +2,10 @@
 
 English vocabulary quiz game player
 
+Player = http://helloooquizzes.com
+
+Management page - https://dashboard.helloooquizzes.com
+
 
 ## Version
 0.0.9
