@@ -1,6 +1,12 @@
-Version
+# Helloooquizzes Client
+
+English vocabulary quze game player
+
+
+## Version
 0.0.9
 
+## Memo
 Server environment - surge
 ---------------------------
 This app has been set node.js env and just static site env
