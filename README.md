@@ -1,4 +1,4 @@
-# Helloooquizzes Client
+# Helloooquizzes Player
 
 English vocabulary quiz game player
 
