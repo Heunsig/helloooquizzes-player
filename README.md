@@ -1,6 +1,6 @@
 # Helloooquizzes Client
 
-English vocabulary quze game player
+English vocabulary quiz game player
 
 
 ## Version
