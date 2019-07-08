@@ -7,7 +7,8 @@ English vocabulary quiz game player
 0.0.9
 
 ## Memo
-Server environment - surge
+
+Server environment - Surge
 ---------------------------
 This app has been set node.js env and just static site env
 because, at first, I used heroku which requires node.js env for service. However, I temporarily changed 
