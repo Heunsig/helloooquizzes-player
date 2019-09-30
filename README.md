@@ -6,3 +6,6 @@ English vocabulary quiz game player
 
 ## Version
 0.0.9
+
+## Screenshots
+![player](https://heunsig-portfolio.s3.ca-central-1.amazonaws.com/helloooquizzes/playing_video.gif)
